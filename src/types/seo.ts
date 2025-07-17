@@ -28,16 +28,63 @@ export interface SEOData {
   imageCount: number;
   imagesWithoutAlt: number;
   
+  // Mobile optimization
+  mobileOptimized: boolean;
+  pageSpeed: {
+    mobile: number;
+    desktop: number;
+  };
+  
   // Analysis scores
   scores: {
     title: 'good' | 'warning' | 'error';
     description: 'good' | 'warning' | 'error';
     openGraph: 'good' | 'warning' | 'error';
     twitter: 'good' | 'warning' | 'error';
+    technical: 'good' | 'warning' | 'error';
+    mobile: 'good' | 'warning' | 'error';
     overall: number;
   };
   
-  recommendations: string[];
+  // Categorized insights
+  categories: {
+    metaTags: SEOCategory;
+    socialMedia: SEOCategory;
+    technical: SEOCategory;
+    mobile: SEOCategory;
+  };
+  
+  recommendations: SEORecommendation[];
+}
+
+export interface SEOCategory {
+  name: string;
+  score: number;
+  status: 'excellent' | 'good' | 'needs-improvement' | 'critical';
+  issues: SEOIssue[];
+  passed: number;
+  total: number;
+}
+
+export interface SEOIssue {
+  type: 'error' | 'warning' | 'info';
+  title: string;
+  description: string;
+  impact: 'high' | 'medium' | 'low';
+  howToFix: string;
+  priority: number;
+}
+
+export interface SEORecommendation {
+  id: string;
+  category: 'meta' | 'social' | 'technical' | 'mobile';
+  priority: 'high' | 'medium' | 'low';
+  title: string;
+  description: string;
+  impact: string;
+  howToFix: string;
+  estimatedTime: string;
+  difficulty: 'easy' | 'medium' | 'hard';
 }
 
 export interface SEOScore {
